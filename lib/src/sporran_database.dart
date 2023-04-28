@@ -709,7 +709,9 @@ class _SporranDatabase {
       final attachmentKey = '$key-${attachment.name}-$attachmentMarkerc';
       attachmentToCreate.rev = WiltUserUtils.getDocumentRev(document);
       attachmentToCreate.contentType = attachment.data.content_type;
-      attachmentToCreate.payload = window.btoa(attachment.data.data);
+      final b64str =
+          base64.encode(utf8.encode(attachment.data.data)).toString();
+      attachmentToCreate.payload = b64str;
 
       updateLocalStorageObject(
           attachmentKey, attachmentToCreate, attachmentToCreate.rev, updatedc);

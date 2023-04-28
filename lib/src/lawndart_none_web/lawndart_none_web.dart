@@ -38,19 +38,14 @@
 
 /// See the `example/` directory for more sample code.
 
-library lawndart;
+library lawndart_none_web;
 
 import 'dart:async';
-import 'dart:html';
-import 'dart:indexed_db' as idb;
+import 'package:idb_sqflite/idb_sqflite.dart' as idb;
+import 'package:idb_sqflite/idb_sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-part 'src/indexeddb_store.dart';
-
-part 'src/map_store.dart';
-
-part 'src/memory_store.dart';
-
-part 'src/local_storage_store.dart';
+part 'src/indexeddb_store_none_web.dart';
 
 /// Represents a Store that can hold key/value pairs. No order
 /// is guaranteed for either keys or values.
@@ -61,12 +56,7 @@ abstract class Store {
   /// Finds the best implementation. In order: IndexedDB, LocalStorage.
   static Future<Store> open(String dbName, String storeName,
       [Map<String, String>? options]) async {
-    Store store;
-    if (IndexedDbStore.supported) {
-      store = IndexedDbStore._(dbName, storeName);
-    } else {
-      store = LocalStorageStore._();
-    }
+    Store store = IndexedDbStore._(dbName, storeName);
     await store._open();
     return store;
   }
